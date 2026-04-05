@@ -1,47 +1,101 @@
+import java.util.Scanner;
+
 /**
  * Jewand Graham
- * 04/01/2026
- * SDC330 Course Project Phase 1
- * This class runs the food truck application and demonstrates the project classes.
+ * 04/04/2026
+ * SDC330 Course Project Phase 2
+ * This class runs the Food Truck Management System and allows user input for CRUD operations.
  */
 public class FoodTruckApp {
     public static void main(String[] args) {
-        System.out.println("Jewand Graham - Course Project Phase 1");
-        System.out.println("Food Truck Management System");
-        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        SQLiteDatabase db = new SQLiteDatabase();
+        MenuItemDAO dao = new MenuItemDAO();
 
-        MenuItem item1 = new MenuItem(1, "Cheeseburger", "Main Item", 8.99, 25);
-        MenuItem item2 = new MenuItem(2, "Fries", "Side", 3.49, 40);
+        db.createMenuItemTable();
 
-        InventoryItem inventory1 = new InventoryItem(1, "Burger Patties", 10, "count", 8);
-        InventoryItem inventory2 = new InventoryItem(2, "Potatoes", 50, "count", 20);
+        int choice;
 
-        OrderDetail detail1 = new OrderDetail(1, 1001, 1, 2, 17.98);
-        OrderDetail detail2 = new OrderDetail(2, 1001, 2, 1, 3.49);
+        do {
+            System.out.println("\nJewand Graham - Course Project Phase 2");
+            System.out.println("Food Truck Management System");
+            System.out.println("1. Add Menu Item");
+            System.out.println("2. View All Menu Items");
+            System.out.println("3. Update Menu Item");
+            System.out.println("4. Delete Menu Item");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
 
-        CustomerOrder order1 = new CustomerOrder(1001, "04/03/2026");
-        order1.addOrderDetail(detail1);
-        order1.addOrderDetail(detail2);
+            choice = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.println("MENU ITEMS");
-        System.out.println(item1);
-        System.out.println();
-        System.out.println(item2);
-        System.out.println();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Item ID: ");
+                    int addId = scanner.nextInt();
+                    scanner.nextLine();
 
-        System.out.println("INVENTORY ITEMS");
-        System.out.println(inventory1);
-        System.out.println();
-        System.out.println(inventory2);
-        System.out.println();
+                    System.out.print("Enter Item Name: ");
+                    String addName = scanner.nextLine();
 
-        System.out.println("ORDER DETAILS");
-        System.out.println(detail1);
-        System.out.println();
-        System.out.println(detail2);
-        System.out.println();
+                    System.out.print("Enter Category: ");
+                    String addCategory = scanner.nextLine();
 
-        System.out.println("CUSTOMER ORDER");
-        System.out.println(order1);
+                    System.out.print("Enter Price: ");
+                    double addPrice = scanner.nextDouble();
+
+                    System.out.print("Enter Quantity Available: ");
+                    int addQty = scanner.nextInt();
+                    scanner.nextLine();
+
+                    MenuItem newItem = new MenuItem(addId, addName, addCategory, addPrice, addQty);
+                    dao.createMenuItem(newItem);
+                    break;
+
+                case 2:
+                    dao.readAllMenuItems();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Item ID to update: ");
+                    int updateId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Enter New Item Name: ");
+                    String updateName = scanner.nextLine();
+
+                    System.out.print("Enter New Category: ");
+                    String updateCategory = scanner.nextLine();
+
+                    System.out.print("Enter New Price: ");
+                    double updatePrice = scanner.nextDouble();
+
+                    System.out.print("Enter New Quantity Available: ");
+                    int updateQty = scanner.nextInt();
+                    scanner.nextLine();
+
+                    MenuItem updatedItem = new MenuItem(updateId, updateName, updateCategory, updatePrice, updateQty);
+                    dao.updateMenuItem(updatedItem);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Item ID to delete: ");
+                    int deleteId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    dao.deleteMenuItem(deleteId);
+                    break;
+
+                case 5:
+                    System.out.println("Exiting application.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+
+        } while (choice != 5);
+
+        scanner.close();
     }
 }

@@ -1,7 +1,7 @@
 /**
  * Jewand Graham
- * 04/01/2026
- * SDC330 Course Project Phase 1
+ * 04/04/2026
+ * SDC330 Course Project Phase 2
  * This class stores menu item information for the food truck application.
  */
 public class MenuItem {
@@ -32,11 +32,7 @@ public class MenuItem {
     }
 
     public void setItemId(int itemId) {
-        if (itemId >= 0) {
-            this.itemId = itemId;
-        } else {
-            this.itemId = 0;
-        }
+        this.itemId = Math.max(itemId, 0);
     }
 
     public String getItemName() {
@@ -44,11 +40,7 @@ public class MenuItem {
     }
 
     public void setItemName(String itemName) {
-        if (itemName != null) {
-            this.itemName = itemName;
-        } else {
-            this.itemName = "";
-        }
+        this.itemName = (itemName != null) ? itemName : "";
     }
 
     public String getCategory() {
@@ -56,11 +48,7 @@ public class MenuItem {
     }
 
     public void setCategory(String category) {
-        if (category != null) {
-            this.category = category;
-        } else {
-            this.category = "";
-        }
+        this.category = (category != null) ? category : "";
     }
 
     public double getPrice() {
@@ -68,11 +56,7 @@ public class MenuItem {
     }
 
     public void setPrice(double price) {
-        if (price >= 0) {
-            this.price = price;
-        } else {
-            this.price = 0.0;
-        }
+        this.price = Math.max(price, 0.0);
     }
 
     public int getQuantityAvailable() {
@@ -80,16 +64,12 @@ public class MenuItem {
     }
 
     public void setQuantityAvailable(int quantityAvailable) {
-        if (quantityAvailable >= 0) {
-            this.quantityAvailable = quantityAvailable;
-        } else {
-            this.quantityAvailable = 0;
-        }
+        this.quantityAvailable = Math.max(quantityAvailable, 0);
     }
 
     @Override
     public String toString() {
-        return "Menu Item ID: " + itemId
+        return "Item ID: " + itemId
                 + "\nItem Name: " + itemName
                 + "\nCategory: " + category
                 + "\nPrice: $" + String.format("%.2f", price)
